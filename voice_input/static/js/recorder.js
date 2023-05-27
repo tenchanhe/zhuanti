@@ -42,6 +42,17 @@ if (navigator.mediaDevices.getUserMedia) {
           })
           .then(response => {
             console.log("录音已保存到服务器");
+            // 请求服务器转换文本，并将转换后的文本显示在网页中
+            fetch("/convert_audio")
+              .then(response => response.text())
+              .then(text => {
+                const textOutput = document.querySelector(".text-output");
+                textOutput.textContent = text;
+                console.log("录音已转换为文本并显示在网页中");
+              })
+              .catch(error => {
+                console.error("转换文本时出错：", error);
+              });
           })
           .catch(error => {
             console.error("保存录音时出错：", error);
