@@ -5,7 +5,7 @@ source_connection = sqlite3.connect('score.db')
 source_cursor = source_connection.cursor()
 
 # 連接到目標資料庫 b.db
-target_connection = sqlite3.connect('course.db')
+target_connection = sqlite3.connect('20230827.db')
 target_cursor = target_connection.cursor()
 
 # 取得源資料庫中 A 表格的資料
