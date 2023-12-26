@@ -6,7 +6,7 @@ column_word_neg = ['難','無聊','負擔重']
 
 
 def get_data_kind1():
-    df = pd.read_csv('data/score_112_av.csv')
+    df = pd.read_csv('../data/score_112_av.csv')
     df = df[df['kind']==1]
 
     grouped = df.groupby('course_name')
@@ -20,7 +20,7 @@ def get_data_kind1():
 
 
 def get_data_kind2_3():
-    df = pd.read_csv('data/score_112_av.csv')
+    df = pd.read_csv('../data/score_112_av.csv')
     df = df[df['kind']==2]
 
     grouped = df.groupby('unit')
@@ -35,7 +35,7 @@ def get_data_kind2_3():
 
 
 def get_data_kind4():
-    df = pd.read_csv('data/score_112_av.csv')
+    df = pd.read_csv('../data/score_112_av.csv')
     df = df[df['kind']==4]
 
     grouped = df.groupby('lmtKind')
@@ -47,6 +47,12 @@ def get_data_kind4():
         course_groups[course] = group
 
     return course_groups
+
+
+def get_data_norate():
+    df = pd.read_csv('../data/score_112_norate.csv')
+
+    return df
 
 
 def gene_kind_1(course_groups):
@@ -73,7 +79,7 @@ def gene_kind_1(course_groups):
                 data['text'].append("<s>[INST] " + ques + " [/INST]" + ans + " </s>")
 
     new_df = pd.DataFrame(data)
-    new_df.to_parquet('data/score_112_qa_kind1.parquet', index=False)
+    new_df.to_parquet('../data/score_112_qa_kind1.parquet', index=False)
 
 
 def gene_kind_2(course_groups):
@@ -99,7 +105,7 @@ def gene_kind_2(course_groups):
                 data['text'].append("<s>[INST] " + ques + " [/INST]" + ans + " </s>")
 
     new_df = pd.DataFrame(data)
-    new_df.to_parquet('data/score_112_qa_kind2.parquet', index=False)
+    new_df.to_parquet('../data/score_112_qa_kind2.parquet', index=False)
 
 
 def gene_kind_3(course_groups):
@@ -125,7 +131,7 @@ def gene_kind_3(course_groups):
                 data['text'].append("<s>[INST] " + ques + " [/INST]" + ans + " </s>")
 
     new_df = pd.DataFrame(data)
-    new_df.to_parquet('data/score_112_qa_kind3.parquet', index=False)
+    new_df.to_parquet('../data/score_112_qa_kind3.parquet', index=False)
 
 
 def gene_kind_4(course_groups):
@@ -151,11 +157,28 @@ def gene_kind_4(course_groups):
                 data['text'].append("<s>[INST] " + ques + " [/INST]" + ans + " </s>")
 
     new_df = pd.DataFrame(data)
-    new_df.to_parquet('data/score_112_qa_kind4.parquet', index=False)
+    new_df.to_parquet('../data/score_112_qa_kind4.parquet', index=False)
+
+
+def gene_norate(df):
+    data = {'question':[], 'answer':[], 'text':[]}
+    for i in range(df.shape[0]):
+        ques = f"請問{df['teacher_name'][i]}老師的{df['course_name'][i]}課程評價如何？"
+        ans = f"資料庫內沒有對於{df['teacher_name'][i]}老師的{df['course_name'][i]}課程的評價，請同學參考課程大綱哦~"
+        data['question'].append(ques)
+        data['answer'].append(ans)
+        data['text'].append("<s>[INST] " + ques + " [/INST]" + ans + " </s>")
+        # print(ques)
+        # print(ans)
+    
+    new_df = pd.DataFrame(data)
+    new_df.to_parquet('../data/score_112_qa_norate.parquet', index=False)
+
 
 if __name__ == "__main__":
 
     # gene_kind_1(get_data_kind1())
     # gene_kind_2(get_data_kind2_3())
-    gene_kind_3(get_data_kind2_3())
-    gene_kind_4(get_data_kind4())
+    # gene_kind_3(get_data_kind2_3())
+    # gene_kind_4(get_data_kind4())
+    gene_norate(get_data_norate())
