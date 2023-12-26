@@ -57,12 +57,13 @@ if (navigator.mediaDevices.getUserMedia) {
           .catch(error => {
             console.error("保存录音时出错：", error);
           });
-              };
-            },
-            () => {
-              console.error("授权失败！");
-            }
-          );
+      };
+    },
+    
+    () => {
+      console.error("授权失败！");
+    }
+    );
 } else {
   console.error("浏览器不支持 getUserMedia");
 }

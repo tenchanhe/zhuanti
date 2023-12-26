@@ -9,7 +9,7 @@ classifier = pipeline("zero-shot-classification", model=model, tokenizer=tokeniz
 # sequence_to_classify = "one day I will see the world"
 # candidate_labels = ['travel', 'cooking', 'dancing']
 
-file_path = 'teachers_course.txt'  # 將 'your_file.txt' 替換為實際的檔案路徑
+file_path = '../data/teachers_course.txt'  # 將 'your_file.txt' 替換為實際的檔案路徑
 with open(file_path, 'r') as file:
     lines = file.readlines()  # 讀取每一行的內容
 
@@ -22,7 +22,7 @@ for line in lines:
     # if len(row) == 2:
         # print(row[0], row[1])
 
-connection = sqlite3.connect('course.db')
+connection = sqlite3.connect('../data/20230827.db')
 # cursor = connection.cursor()
 # query = 'SELECT DISTINCT name, teacher FROM COURSE;'
 # cursor.execute(query)
@@ -38,7 +38,7 @@ for row in two_dim_list:
         cursor = connection.cursor()
         name = row[0]
         teacher = row[1]
-        query = "SELECT contentEn FROM RATE WHERE courseId in( SELECT id FROM COURSE WHERE name=? and teacher=?);"
+        query = "select contenten from rate where courseid in( select id from course where name=? and teacher=?);"
         cursor.execute(query, (name, teacher))
         results = cursor.fetchall()
         # print(results)
@@ -60,11 +60,11 @@ for row in two_dim_list:
             candidate_labels_2 = ['interesting', 'clear', 'boring', 'heavy', 'implicit']
             candidate_labels_3 = ['sweet', 'cold', 'hard', 'thoughtful']
             print(name, teacher, len(sequence_to_classify))
-            ans = classifier(sequence_to_classify, candidate_labels_1, multi_label=True)
+            ans = classifier(sequence_to_classify, candidate_labels_1, multi_label=true)
             print(ans['labels'], ans['scores'])
-            ans = classifier(sequence_to_classify, candidate_labels_2, multi_label=True)
+            ans = classifier(sequence_to_classify, candidate_labels_2, multi_label=true)
             print(ans['labels'], ans['scores'])
-            ans = classifier(sequence_to_classify, candidate_labels_3, multi_label=True)
+            ans = classifier(sequence_to_classify, candidate_labels_3, multi_label=true)
             print(ans['labels'], ans['scores'])
             print('=====================================================', end='\n\n')
 

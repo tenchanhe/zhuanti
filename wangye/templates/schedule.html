@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>课程表</title>
+</head>
+<body>
+    <h1>课程表</h1>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>授课老师</th>
+            <th>課程</th>
+            <th></th>
+        </tr>
+        {% for course_id, course_data in course_info.items() %}
+            <tr>
+                <td><a href="{{ url_for('course_detail', course=course_name) }}">{{ course_id }}</a></td>
+                <td>{{ course_data.id }}</td>
+                <td>{{ course_data.teacher }}</td>
+                <td>{{ course_data.course }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
